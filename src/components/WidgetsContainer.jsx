@@ -1,71 +1,37 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { Button } from "./uikit/button"
-import { Field, Label } from "../components/uikit/fieldset";
 import { useNavigate } from "react-router-dom";
+import { Controller } from "./Controller";
+
 export const WidgetsContainer =({setItems, items, count, setCount})=>{
-    console.log(count)
     const nav = useNavigate()
     const itemsRef = useRef(new Map())
     const getMap = ()=>{return itemsRef.current}
-    const addWidget = (type, content)=>{
-        console.log(type, content)
-        setItems([...items,{id: `${type}-${count}`, h:"2" , w:"2", content:content}]);
+
+    const addWidget = (type)=>{
+        console.log(type, )
+        setItems([...items,{id: `${type}-${count}`, h:"2" , w:"2", content:null, style:null}]);
         setTimeout(()=>{grid.makeWidget(getMap().get(count))}, 5)
-        setCount(prev => prev+1)
-        console.log("cuenta", count)
-    }  
+        setCount(prev => prev+1)}  
 
     const saveLayout = () => {
         const layout = grid.save(false)
         layout.forEach((item, index) => {item.content = items[index].content})
+        layout.forEach((item, index) => {item.style = items[index].style})
         localStorage.setItem("grid-layout", JSON.stringify(layout))
         nav("/")};
     
-const TextInput = ()=> {
-    const [text, setText] = useState("")
     return (
-        <Field className="bg-zinc-100 p-2 rounded-lg m-1 shadow-lg">
-            <Label>Texto </Label>
-            <input  onChange={e=> setText(e.target.value)} placeholder="ingrese mensaje" className="bg-white mx-2 border border-zinc-600 rounded-lg px-1"/>
-            <Button onClick={()=>addWidget("text", text)} >Añadir</Button>
-        </Field>
-    )
-}
-
-const ImageInput = ()=> {
-    const [text, setText] = useState(null)
-    return (
-        <Field className="bg-zinc-100 p-2 rounded-lg m-1 shadow-lg">
-            <Label> Imagen </Label>
-            <input  onChange={e=> setText(e.target.value)} placeholder="ingrese url" className="bg-white border border-zinc-600 rounded-lg px-1"/>
-            <Button onClick={()=>addWidget("image", text)} >Añadir</Button>
-        </Field>
-    )
-}
-
-const TitleInput = ()=> {
-    const [text, setText] = useState(null)
-    return (
-        <Field className="bg-zinc-100 p-2 rounded-lg m-1 shadow-lg">
-            <Label> Titulo </Label>
-            <input  onChange={e=> setText(e.target.value)} placeholder="ingrese Título" className="bg-white border border-zinc-600 rounded-lg px-1"/>
-            <Button onClick={()=>addWidget("title", text)} >Añadir</Button>
-        </Field>
-    )
-}
-
-    return (
-          <>
-            {/* <Button onClick={()=>addWidget("image")}>Añadir Imagen</Button>
-            <Button onClick={()=>addWidget("title")}>Añadir Titulo</Button>
-            <Button onClick={()=>addWidget("title", "Nuevo titulo")}>Añadir Nuevo Titulo</Button>
-            <Button onClick={()=>addWidget("text")}>Añadir Texto</Button> */}
-            <Button onClick={()=>addWidget("button")}>Añadir Boton</Button>
-            <Button onClick={()=>saveLayout()}>Guardar cambios</Button>
-            <TitleInput />
-            <ImageInput />
-            <TextInput />
-            
-              </>
-    )
+        <div className="border border-zinc-400 w-full m-1 rounded-lg p-1 pt-2">
+            <Button onClick={()=>saveLayout()} className="justify-self-center w-[80%] ">Guardar</Button>
+            <div className="flex justify-center sm:flex-col mt-2 justify-self-center">
+                <Controller type="text" handleClick={addWidget}/>
+                <Controller type="title" handleClick={addWidget}/>
+                <Controller type="button" handleClick={addWidget}/>
+                <Controller type="comparer" handleClick={addWidget}/>
+                <Controller type="video" handleClick={addWidget}/>
+                <Controller type="image" handleClick={addWidget}/>
+                {/* <Controller type="container" handleClick={addWidget}/> */}
+            </div>
+        </div>)
 }

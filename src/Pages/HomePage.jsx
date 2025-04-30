@@ -14,10 +14,9 @@ export const HomePage = ()=>{
             setLayout(layout)})
             }}, []);
     return (
-        <div className="w-[80vw] justify-self-center">
+        <div className="w-[90vw] sm:w-[70vw] justify-self-center">
             <GridContainer canEdit={false} items={layout}/>
             <Button onClick={()=> nav("/editor")}>Editar</Button>
-
         </div>
     )
 }

@@ -1,6 +1,5 @@
 import 'gridstack/dist/gridstack.min.css';
 import { Routes, Route } from 'react-router-dom';
-import { GridContainer } from "../src/components/GridContainer"
 import './App.css'
 import { EditorPage } from './Pages/EditorPage';
 import { HomePage } from './Pages/HomePage';

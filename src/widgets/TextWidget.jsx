@@ -1,9 +1,30 @@
 import { Text} from "../components/uikit/text"
+import { useState } from "react"
+import { HiOutlinePencil } from "react-icons/hi";
+import { Button } from "../components/uikit/button"
+import { Input } from "../components/uikit/input"
+import { Field, Label } from "../components/uikit/fieldset"
+import { TextController } from "../components/controllers/TextController";
 
-export const TextWidget = ({content})=>{
-    console.log( content)
-    return (
-    <div className="bg-zinc-100 py-3 px-2 rounded-lg self-center items-center">
-        <Text>{content ? content : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis aspernatur repudiandae aut eos fugiat, harum similique qui ratione fugit possimus maxime sit quia ullam id maiores! Asperiores iste provident ratione."}</Text>
+export const TextWidget = ({content,  id, edit, editable, style})=>{
+  const [editor, setEditor] = useState(false)
+  const [variable, setVariable] = useState("")
+  const [styles, setStyles] = useState(style ? style : {})
+
+  const save = ()=> {
+    edit(id, variable, styles)
+    setEditor(false)}
+
+  return (
+    <div className="  rounded-lg self-center items-center"  >
+      {(!editor && editable )&& <button onClick={()=>setEditor(true)} className="absolute top-1 right-10 bg-blue-500 text-white px-2 py-1  h-6 text-[6px] rounded z-300 hover:border hover:border-zinc-500 cursor-pointer"><HiOutlinePencil className="size-4"/></button>}
+      {editor && <Field className="absolute top-1 left-1 bg-zinc-50 p-3 m-1 rounded-lg shadow-xl border border-zinc-200">
+          <Label >Texto</Label>
+          <Input name="url" placeholder="Ingrese el Título" onChange={e=> setVariable(e.target.value)}/>
+          <TextController styles={styles} setStyles={setStyles}/>
+          <Button type="submit" className="mx-1 my-2" onClick={save} >Guardar</Button>
+          <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
+        </Field>}
+      <Text className="p-2" style={styles ? styles : null}>{content ? content : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis aspernatur repudiandae aut eos fugiat, harum similique qui ratione fugit possimus maxime sit quia ullam id maiores! Asperiores iste provident ratione."}</Text>
     </div>)
 }
