@@ -1,8 +1,5 @@
 import { HiOutlinePhotograph, HiOutlineLink, HiOutlineCash , HiOutlineFilm,  } from "react-icons/hi";
-import { HiMiniH1 , HiMiniH3  } from "react-icons/hi2";
-import { Button } from "./uikit/button";
-import { useState, useRef } from "react";
-import { Heading } from "./uikit/heading";
+import { HiMiniH1 , HiMiniH3, HiOutlineSquaresPlus   } from "react-icons/hi2";
 
 const dictionary =  {
     button: "Botón",
@@ -10,7 +7,8 @@ const dictionary =  {
     title: "Título ",
     image: "Imagen",
     video: "Video",
-    comparer: "Comparador"}
+    comparer: "Comparador",
+container: "Grid"}
  
 const renderIcon = (type)=> {
     const icons = {
@@ -19,7 +17,8 @@ const renderIcon = (type)=> {
         title: <HiMiniH1 className="h-6 w-6" />,
         image: <HiOutlinePhotograph className="h-6 w-6"/>,
         video: <HiOutlineFilm className="h-6 w-6"/>,
-        comparer: <HiOutlineCash  className="h-6 w-6" />}
+        comparer: <HiOutlineCash  className="h-6 w-6" />,
+        container: <HiOutlineSquaresPlus   className="h-6 w-6" />}
         return icons[type]}
 
 export const Controller = ({type, handleClick})=>{

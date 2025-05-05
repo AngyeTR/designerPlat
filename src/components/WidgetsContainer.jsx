@@ -1,25 +1,30 @@
 import { useRef } from "react";
 import { Button } from "./uikit/button"
 import { useNavigate } from "react-router-dom";
+import { HiOutlinePencil } from "react-icons/hi";
 import { Controller } from "./Controller";
 
-export const WidgetsContainer =({setItems, items, count, setCount})=>{
+export const WidgetsContainer =({setItems, items, count, setCount, layoutColor})=>{
     const nav = useNavigate()
     const itemsRef = useRef(new Map())
     const getMap = ()=>{return itemsRef.current}
 
     const addWidget = (type)=>{
-        console.log(type, )
-        setItems([...items,{id: `${type}-${count}`, h:"2" , w:"2", content:null, style:null}]);
+        setItems([...items,{id: `${type}-${count}`, h:"2" , w:"2", content:type == "container" ? [] : null, style:null}]);
         setTimeout(()=>{grid.makeWidget(getMap().get(count))}, 5)
         setCount(prev => prev+1)}  
 
     const saveLayout = () => {
         const layout = grid.save(false)
-        layout.forEach((item, index) => {item.content = items[index].content})
-        layout.forEach((item, index) => {item.style = items[index].style})
+        console.log(layout, items)
+        layout.forEach((item) => {item.content = items.filter(it => it.id == item.id)[0].content})
+        layout.forEach((item) => {item.style = items.filter(it => it.id == item.id)[0].style})
         localStorage.setItem("grid-layout", JSON.stringify(layout))
-        nav("/")};
+        localStorage.setItem("grid-color", JSON.stringify(layoutColor))
+        console.log(layout, items)
+        nav("/")
+        nav(0)
+    };
     
     return (
         <div className="border border-zinc-400 w-full m-1 rounded-lg p-1 pt-2">
@@ -31,7 +36,7 @@ export const WidgetsContainer =({setItems, items, count, setCount})=>{
                 <Controller type="comparer" handleClick={addWidget}/>
                 <Controller type="video" handleClick={addWidget}/>
                 <Controller type="image" handleClick={addWidget}/>
-                {/* <Controller type="container" handleClick={addWidget}/> */}
+                <Controller type="container" handleClick={addWidget}/>
             </div>
         </div>)
 }

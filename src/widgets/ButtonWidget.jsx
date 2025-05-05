@@ -26,7 +26,7 @@ export const ButtonWidget = ({content, id, edit, editable, style})=>{
             <Button type="submit" className="mx-1 my-2" onClick={save}>Guardar</Button>
             <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
         </Field>}
-        <a href={url} target="_blank" className="h-fit"><button onClick={()=> console.log("click")} style={styles}
+        <a href={url} target="_blank" className="h-fit"><button  style={styles}
         className="w-full p-2 rounded-lg hover:border hover:border-zinc-500 h-fit relative">{content?.label ? content.label : "Boton de prueba"}</button></a>
         </div>
     )}

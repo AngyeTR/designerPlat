@@ -5,18 +5,26 @@ import { Button } from "../components/uikit/button"
 
 export const HomePage = ()=>{
     const nav = useNavigate()
-    const [layout, setLayout] = useState(null)    
+    const [layout, setLayout] = useState(null) 
+    const [color, setColor] = useState({backgroundColor: "#ffffff"}) 
+    
+    const navigate= ()=>{
+        nav("/editor")
+        nav(0)}  
     useEffect(() => {
         const savedLayout = localStorage.getItem("grid-layout");
+        const savedColor = localStorage.getItem("grid-color")
+        console.log(savedColor)
+        savedColor && setColor(JSON.parse(savedColor))
         if (savedLayout) {
             const layout = JSON.parse(savedLayout);
             layout.forEach((item) => {
             setLayout(layout)})
             }}, []);
     return (
-        <div className="w-[90vw] sm:w-[70vw] justify-self-center">
-            <GridContainer canEdit={false} items={layout}/>
-            <Button onClick={()=> nav("/editor")}>Editar</Button>
+        <div className="w-[90vw] sm:w-[70vw] justify-self-center" >
+            <GridContainer canEdit={false} items={layout} layoutColor={color}/>
+            <Button onClick={navigate}>Editar</Button>
         </div>
     )
 }
