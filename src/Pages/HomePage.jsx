@@ -22,9 +22,9 @@ export const HomePage = ()=>{
             setLayout(layout)})
             }}, []);
     return (
-        <div className="w-[90vw] sm:w-[70vw] justify-self-center" >
+        <div className="w-[90vw]  justify-self-center mt-5" >
             <GridContainer canEdit={false} items={layout} layoutColor={color}/>
-            <Button onClick={navigate}>Editar</Button>
+            <Button className="mt-2" onClick={navigate}>Editar</Button>
         </div>
     )
 }

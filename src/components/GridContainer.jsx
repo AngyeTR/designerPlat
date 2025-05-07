@@ -1,6 +1,6 @@
 import 'gridstack/dist/gridstack.min.css';
 import { GridStack } from 'gridstack';
-import { Field } from './uikit/fieldset';
+import { Field, Label } from './uikit/fieldset';
 import { HiOutlineTrash } from "react-icons/hi";
 import { useEffect, useRef, useState } from 'react'
 import { ImageWidget } from '../widgets/ImageWidget';
@@ -10,9 +10,9 @@ import { ButtonWidget } from '../widgets/ButtonWidget';
 import { VideoWidget } from '../widgets/VideoWidget';
 import { ComparerWidget } from '../widgets/ComparerWidget';
 import { GridWidget } from '../widgets/GridWidget';
+import { CarouselWidget } from '../widgets/CarouselWidget';
 
 export const GridContainer = ({canEdit, setItems, items, count, layoutColor, setLayoutColor})=> { 
-  console.log(layoutColor)
   const styles = {backgroundColor: layoutColor["backgroundColor"],  
       backgroundImage: `url('${layoutColor["backgroundImage"]}')`,  backgroundSize: 'cover',
       backgroundPosition: 'center', repeat: "no-repeat",  backgroundBlendMode: 'multiply' }
@@ -23,7 +23,6 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
       if (el) { grid.removeWidget(el)}}}
 
   const editWidget = (id, content, style)=>{
-    console.log(id, content)
     const newItem = items.filter((item)=> item.id == id )[0]
     const ind = items.findIndex(item => item.id === id)
     newItem["content"] = content
@@ -35,10 +34,9 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
   }
 
   useEffect(()=>{
-    grid = GridStack.init({float: true, cellHeight: 50, column:4, acceptWidgets: true, columnOpts:{breakpoints:[{w:480, c:1}]},
+    grid = GridStack.init({float: true, cellHeight: 50, column: 6, acceptWidgets: true, columnOpts:{breakpoints:[{w:480, c:1}, {w:690, c:6}, {w:1280, c:6}]},
       margin: 1, staticGrid: !canEdit, disableResize: !canEdit, disableDrag: !canEdit})
     return () => {grid.destroy(false)}
-    console.log(items)
   },[ ,items])
 
   const render=(item)=>{
@@ -50,19 +48,14 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
       button: <ButtonWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/> , 
       video: <VideoWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/> ,
       comparer: <ComparerWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/>,
-    container: <GridWidget content={item.content} id={item.id} edit={editWidget} canEdit={canEdit} style={item.style}/>
+      container: <GridWidget content={item.content} id={item.id} edit={editWidget} canEdit={canEdit} style={item.style}/>,
+      carousel: <CarouselWidget content={item.content} id={item.id} edit={editWidget} canEdit={canEdit} style={item.style} />
     }
    return dictionary[type]}
 
   return (
     <>
-    <div className='grid-stack w-full border border-zinc-900 h-[80vh]' style={styles}>
-      <div>
-      {canEdit && <Field className="absolute flex -top-5 -left-3 bg-zinc-50 p-1 rounded-lg shadow-xl border border-zinc-200">
-        <input onChange={e=> setLayoutColor(prev => ({...prev, ["backgroundColor"]: e.target.value}))}  type="color" className="w-[20px] h-[20px]" />
-        <input onChange={e=> setLayoutColor(prev => ({...prev, ["backgroundImage"] : e.target.value  }))}  type="text" placeholder="URL fondo" className="w-[80px] h-[20px]" />
-      </Field>}
-            </div>
+    <div className='grid-stack w-full border border-zinc-400 h-[80vh]' style={styles}>
     {items?.map((cat, index)=>
     (
       <div className='grid-stack-item' gs-w={cat?.w} gs-h={cat?.h} key={cat?.id} gs-id={cat.id} gs-x={cat.x} gs-y={cat.y} gs-content={cat.content} gs-sub-grid={cat.id.split("-")[0] == "container" ? "true" : "false"}
@@ -80,7 +73,13 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
             {render(cat, index)}
     </div>            
     </div> ))}
-  
+    <div >
+      {canEdit && <Field className="absolute flex -bottom-9 -right-3 bg-zinc-50 p-1 rounded-lg shadow-xl border border-zinc-200 z-30">
+        <h3 className="text-xs my-1 ml-1">Fondo de layout: </h3>
+        <input onChange={e=> setLayoutColor(prev => ({...prev, ["backgroundColor"]: e.target.value}))}  type="color" className="my-1 w-[20px] h-[20px] mx-1 text-xs" />
+        <input onChange={e=> setLayoutColor(prev => ({...prev, ["backgroundImage"] : e.target.value  }))}  type="text" placeholder="URL fondo" className="mx-1 my-1 w-[80px] h-[20px] rounded-sm border border-zinc-200" />
+      </Field>}
+    </div>
   </div>   
   </>)
 }

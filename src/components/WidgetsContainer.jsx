@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { Button } from "./uikit/button"
 import { useNavigate } from "react-router-dom";
-import { HiOutlinePencil } from "react-icons/hi";
 import { Controller } from "./Controller";
 
 export const WidgetsContainer =({setItems, items, count, setCount, layoutColor})=>{
@@ -37,6 +36,7 @@ export const WidgetsContainer =({setItems, items, count, setCount, layoutColor})
                 <Controller type="video" handleClick={addWidget}/>
                 <Controller type="image" handleClick={addWidget}/>
                 <Controller type="container" handleClick={addWidget}/>
+                <Controller type="carousel" handleClick={addWidget}/>
             </div>
         </div>)
 }

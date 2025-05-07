@@ -1,5 +1,8 @@
 import { HiOutlinePhotograph, HiOutlineLink, HiOutlineCash , HiOutlineFilm,  } from "react-icons/hi";
 import { HiMiniH1 , HiMiniH3, HiOutlineSquaresPlus   } from "react-icons/hi2";
+import { GrGallery } from "react-icons/gr";
+import { LuGalleryHorizontal } from "react-icons/lu";
+
 
 const dictionary =  {
     button: "Botón",
@@ -8,17 +11,20 @@ const dictionary =  {
     image: "Imagen",
     video: "Video",
     comparer: "Comparador",
-container: "Grid"}
+container: "Grid",
+carousel: "Galería"}
  
 const renderIcon = (type)=> {
     const icons = {
-        button: <HiOutlineLink className="h-6 w-6" />,
-        text: <HiMiniH3 className="h-6 w-6" />,
-        title: <HiMiniH1 className="h-6 w-6" />,
-        image: <HiOutlinePhotograph className="h-6 w-6"/>,
-        video: <HiOutlineFilm className="h-6 w-6"/>,
-        comparer: <HiOutlineCash  className="h-6 w-6" />,
-        container: <HiOutlineSquaresPlus   className="h-6 w-6" />}
+        button: <HiOutlineLink className=" size-4 sm:size-5" />,
+        text: <HiMiniH3 className=" size-4 sm:size-5" />,
+        title: <HiMiniH1 className=" size-4 sm:size-5" />,
+        image: <HiOutlinePhotograph className=" size-4 sm:size-5"/>,
+        video: <HiOutlineFilm className=" size-4 sm:size-5"/>,
+        comparer: <HiOutlineCash  className=" size-4 sm:size-5" />,
+        container: <HiOutlineSquaresPlus   className=" size-4 sm:size-5" />,
+        carousel: <LuGalleryHorizontal   className=" size-4 sm:size-5" />,
+    }
         return icons[type]}
 
 export const Controller = ({type, handleClick})=>{

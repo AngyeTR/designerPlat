@@ -25,6 +25,7 @@ export const TitleWidget = ({content, id, edit, editable, style})=>{
         <Button type="submit" className="mx-1 my-2" onClick={save}>Guardar</Button>
         <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
       </Field>}
-      <Heading className="p-2" style={styles ? styles : null}>{content ? content : "Lorem ipsum dolor sit amet"} </Heading>
+      <h1 className="p-2 leading-none" style={styles ? styles : null}>{content ? content : "Lorem ipsum dolor sit amet"} </h1>
+      {/* <Heading className="p-2 leading-loose" style={styles ? styles : null}>{content ? content : "Lorem ipsum dolor sit amet"} </Heading> */}
     </div>)
 }
