@@ -11,6 +11,8 @@ import { VideoWidget } from '../widgets/VideoWidget';
 import { ComparerWidget } from '../widgets/ComparerWidget';
 import { GridWidget } from '../widgets/GridWidget';
 import { CarouselWidget } from '../widgets/CarouselWidget';
+import { BlankWidget } from '../widgets/BlankWidget';
+import { PaymentButtonWidget } from '../widgets/PaymentButtonWidget';
 
 export const GridContainer = ({canEdit, setItems, items, count, layoutColor, setLayoutColor})=> { 
   const styles = {backgroundColor: layoutColor["backgroundColor"],  
@@ -18,11 +20,12 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
       backgroundPosition: 'center', repeat: "no-repeat",  backgroundBlendMode: 'multiply' }
   const itemsRef = useRef(new Map())
   const getMap = ()=>{return itemsRef.current}
+  const [isModalOpen, setModalOpen] =  useState(true)
   const removeWidget = (id) => {setItems((prev) => prev.filter((w) => w.id !== id));
   if (grid) {const el = document.getElementById(id)
       if (el) { grid.removeWidget(el)}}}
 
-  const editWidget = (id, content, style)=>{
+  const editWidget = async(id, content, style)=>{
     const newItem = items.filter((item)=> item.id == id )[0]
     const ind = items.findIndex(item => item.id === id)
     newItem["content"] = content
@@ -30,7 +33,8 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
     let filteredItems = [...items]
     filteredItems[ind] = newItem
     setItems(filteredItems);
-    setTimeout(()=>{grid.makeWidget(getMap().get(count))}, 5)
+    await new Promise(resolve => setTimeout(resolve, 500));
+    // setTimeout(()=>{grid.makeWidget(getMap().get(count))}, 5)
   }
 
   useEffect(()=>{
@@ -45,17 +49,18 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
       image: <ImageWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/>,
       text:  <TextWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/>,
       title: <TitleWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/>, 
+      payment: <PaymentButtonWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/> , 
       button: <ButtonWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/> , 
       video: <VideoWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/> ,
       comparer: <ComparerWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/>,
-      container: <GridWidget content={item.content} id={item.id} edit={editWidget} canEdit={canEdit} style={item.style}/>,
-      carousel: <CarouselWidget content={item.content} id={item.id} edit={editWidget} canEdit={canEdit} style={item.style} />
+      container: <GridWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}/>,
+      carousel: <CarouselWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style} />,
+      blank: <BlankWidget content={item.content} id={item.id} edit={editWidget} editable={canEdit} style={item.style}  />
     }
    return dictionary[type]}
 
   return (
-    <>
-    <div className='grid-stack w-full border border-zinc-400 h-[80vh]' style={styles}>
+    <div className='grid-stack w-full border border-zinc-400  min-h-[90vh]' style={styles}>
     {items?.map((cat, index)=>
     (
       <div className='grid-stack-item' gs-w={cat?.w} gs-h={cat?.h} key={cat?.id} gs-id={cat.id} gs-x={cat.x} gs-y={cat.y} gs-content={cat.content} gs-sub-grid={cat.id.split("-")[0] == "container" ? "true" : "false"}
@@ -63,12 +68,11 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
         const map = getMap();
         if(node){
           map.set((cat.id), node)
-          console.log(node, cat.id)
         } else {map.delete(cat.id)}
         }}>
           <div className={`grid-stack-item-content ${(cat.id.split("-")[0] == "container" )&& "subgrid"} content-center min-w-[50px] min-h-[20px] h-full`} >
             {canEdit && <button onClick={() => removeWidget(( cat.id))}
-            className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded z-300">
+            className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded z-30">
            <HiOutlineTrash className="size-4" /></button>}
             {render(cat, index)}
     </div>            
@@ -80,8 +84,7 @@ export const GridContainer = ({canEdit, setItems, items, count, layoutColor, set
         <input onChange={e=> setLayoutColor(prev => ({...prev, ["backgroundImage"] : e.target.value  }))}  type="text" placeholder="URL fondo" className="mx-1 my-1 w-[80px] h-[20px] rounded-sm border border-zinc-200" />
       </Field>}
     </div>
-  </div>   
-  </>)
+  </div>)
 }
 
 

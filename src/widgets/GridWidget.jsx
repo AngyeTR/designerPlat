@@ -12,12 +12,12 @@ export const GridWidget = ({canEdit, id, content, edit}) => {
   let gridRef = useRef(null)
   let gridRef2 = useRef(new Map())
   const getMap2 = ()=>{return gridRef2.current}
-  const initialItems = [
-    {content: null, id: "image-10", w: 12, x:0, y: 0}, 
-    {content: "Titulo de prueba de layout", id: "title-12", w: 12, x:1, y: 3},
-    {content: "texto de prueba de layout", id: "text-11", w: 12, x:2, y: 0},
-  ]
-  const [items, setItems] = useState(initialItems)
+  // const initialItems = [
+  //   {content: null, id: "image-10", w: 12, x:0, y: 0}, 
+  //   {content: "Titulo de prueba de layout", id: "title-12", w: 12, x:1, y: 3},
+  //   {content: "texto de prueba de layout", id: "text-11", w: 12, x:2, y: 0},
+  // ]
+  const [items, setItems] = useState(content)
 
   const subgrid = GridStack.init({ staticGrid: !canEdit, disableResize: !canEdit, disableDrag: !canEdit,
     float: true,
@@ -61,7 +61,7 @@ const saveChanges = ()=>{
       useEffect(()=>{
         const subgrid = GridStack.init({ staticGrid: !canEdit, disableResize: !canEdit, disableDrag: !canEdit,
           float: true,
-          cellHeight: 80,
+          cellHeight: 40,
           column: 3, nested:true, children: items
         },
          gridRef.current);

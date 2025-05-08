@@ -3,6 +3,7 @@ import { Button } from "../components/uikit/button"
 import { HiOutlinePencil } from "react-icons/hi";
 import { Input } from "../components/uikit/input"
 import { Field, Label } from "../components/uikit/fieldset" 
+import { Modal } from '../components/Modal';
 
 export const ComparerWidget = ({ content, id, edit, editable }) => {
   const [editor, setEditor] = useState(false)
@@ -21,13 +22,6 @@ export const ComparerWidget = ({ content, id, edit, editable }) => {
   return (
     <>
     {(!editor && editable )&& <button onClick={()=>setEditor(true)} className="absolute top-1 right-10 bg-blue-500 text-white px-2 py-1  h-6 text-[6px] rounded z-300 hover:border hover:border-zinc-500 cursor-pointer"><HiOutlinePencil className="size-4"/></button>}
-    {editor && <Field className="absolute top-1 left-1 bg-zinc-50 p-3 m-1 rounded-lg z-40">
-        <Label >Comparador</Label>
-        <Input  onChange={e=> (setText(prev => ({...prev, ["before"] : e.target.value})))}  placeholder="Ingrese URl de imagen del Antes" className="block bg-white border border-zinc-600 rounded-lg my-2 px-1"/>
-        <Input  onChange={e=> setText(prev => ({...prev, ["after"] : e.target.value}))} placeholder="Ingrese URl de imagen del Después" className="block my-2 bg-white border border-zinc-600 rounded-lg px-1"/>
-        <Button type="submit" className="mx-1 my-2" onClick={save}>Guardar</Button>
-        <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
-      </Field>}
     <div className="slider-container relative w-[100%] h-[100%] overflow-hidden rounded-[8px]" ref={containerRef}>
       <img src={beforeImg} alt="Before" className="slider-image  absolute top-0 left-0 w-[100%] h-[100%] object-cover" />
       <div className="after-image-wrapper absolute top-0 left-0 h-[100%] w-[100%] overflow-hidden z-1"
@@ -40,6 +34,17 @@ export const ComparerWidget = ({ content, id, edit, editable }) => {
         className="slider-handle absolute top-0 bottom-0 w-[2px] bg-black border border-amber-50 z-1 -translate-x-[50%]"
         style={{ left: `${sliderValue}%` }}/>
     </div>
+    {editor && 
+    <Modal> 
+       <Field className="w-md bg-zinc-50 p-5 m-3 rounded-lg shadow-xl border border-zinc-200">
+        <Label >Comparador</Label>
+        <input  onChange={e=> (setText(prev => ({...prev, ["before"] : e.target.value})))}  placeholder="Ingrese URl de imagen del Antes" className="block bg-white border border-zinc-600 rounded-lg my-2 px-1 w-sm text-sm py-1"/>
+        <input  onChange={e=> setText(prev => ({...prev, ["after"] : e.target.value}))} placeholder="Ingrese URl de imagen del Después" className="block my-2 bg-white border border-zinc-600 rounded-lg px-1 w-sm text-sm py-1"/>
+        <Button type="submit" className="mx-1 my-2" onClick={save}>Guardar</Button>
+        <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
+      </Field>
+    </Modal>
+   }
     </>
   );
 };
