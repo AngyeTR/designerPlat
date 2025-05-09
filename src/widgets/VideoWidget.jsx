@@ -1,13 +1,16 @@
 import { useState } from "react"
 import { HiOutlinePencil } from "react-icons/hi";
 import { Button } from "../components/uikit/button"
+import { Switch } from "../components/uikit/switch";
 import { Input } from "../components/uikit/input"
 import { Field, Label } from "../components/uikit/fieldset" 
 import { Modal } from "../components/Modal";
+import { CollectionSelector } from "../components/CollectionSelector";
  
 export const VideoWidget = ({content,  id, edit, editable})=>{
   const [editor, setEditor] = useState(false)
   const [variable, setVariable] = useState("")
+  const [internalOrigin, setInternalOrigin] = useState(true)
   const url = content ? String(content) : "https://www.youtube.com/embed/-VGQxQHLXEI?si=trey54RoReblOwn4"
   const save = ()=> {
     edit(id, variable)
@@ -21,7 +24,9 @@ export const VideoWidget = ({content,  id, edit, editable})=>{
         <Modal>
           <Field   className="w-md bg-zinc-50 p-5 m-3 rounded-lg shadow-xl border border-zinc-200">
             <Label >Video</Label>
-            <Input name="url" placeholder="Ingrese URL del video" onChange={e=> setVariable(e.target.value)}/>
+            <p>Seleccionar desde las Colecciones guardadas  <Switch checked={internalOrigin} onChange={setInternalOrigin}/> </p>
+            {!internalOrigin ?  <Input name="url" placeholder="Ingrese URL del video" onChange={e=> setVariable(e.target.value)}/>
+            :<CollectionSelector variable={variable} setVariable={setVariable} type="video"/>} 
             <Button type="submit" className="mx-1 my-2" onClick={save}>Guardar</Button>
             <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
           </Field>

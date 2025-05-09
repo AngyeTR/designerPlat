@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Button } from "../components/uikit/button"
-import { Field } from "./uikit/fieldset";
-import { Label } from "./uikit/fieldset";
 import { HiOutlineFilm } from "react-icons/hi";
-import { Select} from "./uikit/select"
 import { Modal } from "./Modal";
-import { Input } from "./uikit/input";
+import { NewResourceForm } from "./NewResourceForm";
 
-export const ResourcesView = ({collection, data, setData})=> {
+export const ResourcesView = ({collection, data})=> {
     const [file, setFile]  = useState(null)
     const [editor, setEditor] = useState(false)
+
     return ( 
         <>
         {collection ? 
@@ -29,23 +27,7 @@ export const ResourcesView = ({collection, data, setData})=> {
             : <div className="h-[200px] content-center "><h3>Seleccione una colección para ver sus recursos</h3></div>}     
         {editor && 
                 <Modal>
-                    <Field className="w-md bg-zinc-50 p-5 m-3 rounded-lg shadow-xl border border-zinc-200">
-                    <Label >Nuevo archivo</Label>
-                    {/* <input  onChange={e=> (setVariable(prev => ({...prev, ["label"] : e.target.value})))}  placeholder="Ingrese Texto del Botón" className="block bg-white border border-zinc-600 rounded-lg my-2 px-1 w-sm text-sm py-1"/> */}
-                    <Select className="my-1">
-                        <option value={null}>Seleccione una colección</option>
-                        {data.map(item => <option value={item.name}>{item.name}</option>)}
-                    </Select>
-                    <Select className="my-1">
-                        <option value={null}>Seleccione una tipo de archivo</option>
-                        <option value="image">Imagen</option>
-                        <option value="video">Video</option>
-                    </Select>
-                    <Input type="file"  className="my-1"/>
-                    <Input placeholder="Nombre del archivo"  className="my-1" />
-                    <Button type="submit" className="mx-1 my-2" >Guardar</Button>
-                    <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
-                </Field>
+                    <NewResourceForm data={data} setEditor={setEditor}/>
                 </Modal> }
                 {file && 
                 <Modal>

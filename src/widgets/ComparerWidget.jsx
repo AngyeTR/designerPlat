@@ -4,18 +4,27 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { Input } from "../components/uikit/input"
 import { Field, Label } from "../components/uikit/fieldset" 
 import { Modal } from '../components/Modal';
+import { Switch} from "../components/uikit/switch"
+import { CollectionSelector } from "../components/CollectionSelector";
 
 export const ComparerWidget = ({ content, id, edit, editable }) => {
+  console.log(content)
   const [editor, setEditor] = useState(false)
-  const [variable, setVariable] =  useState({label:"", url:""})
+  const [left, setLeft] =  useState("")
+  const [right, setRight] =  useState("")
   const [sliderValue, setSliderValue] = useState(50);
+  const [leftInternalOrigin, setLeftInternalOrigin] = useState(true)
+  const [rightInternalOrigin, setRightInternalOrigin] = useState(true)
   const containerRef = useRef(null);
   const beforeImg = content?.before ? content.before : "https://future-store-con.vercel.app/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0652%2F0268%2F3956%2Ffiles%2FWyOuIma.jpg%3Fv%3D1718300094&w=384&q=80"
   const afterImg = content?.after ? content.after : "https://future-store-con.vercel.app/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0652%2F0268%2F3956%2Ffiles%2FFfjoQ9g.jpg%3Fv%3D1718300060&w=384&q=80"
 
   const save = ()=> {
-          edit(id, variable)
-          setEditor(false)}
+    const variable = content ? content : {}
+    left && (variable["before"] = left)
+    right && (variable["after"] = right)
+    edit(id, variable)
+    setEditor(false)}
 
   const handleSliderChange = (e) => {setSliderValue(e.target.value)}
 
@@ -36,10 +45,20 @@ export const ComparerWidget = ({ content, id, edit, editable }) => {
     </div>
     {editor && 
     <Modal> 
-       <Field className="w-md bg-zinc-50 p-5 m-3 rounded-lg shadow-xl border border-zinc-200">
+       <Field className="w-md bg-zinc-50 p-5 m-3 rounded-lg shadow-xl max-h-[70vh] overflow-scroll border border-zinc-200">
         <Label >Comparador</Label>
-        <input  onChange={e=> (setText(prev => ({...prev, ["before"] : e.target.value})))}  placeholder="Ingrese URl de imagen del Antes" className="block bg-white border border-zinc-600 rounded-lg my-2 px-1 w-sm text-sm py-1"/>
-        <input  onChange={e=> setText(prev => ({...prev, ["after"] : e.target.value}))} placeholder="Ingrese URl de imagen del Después" className="block my-2 bg-white border border-zinc-600 rounded-lg px-1 w-sm text-sm py-1"/>
+        <div className='border border-zinc-200 p-2 rounded-lg'>
+          <Label>Imagen de la izquierda</Label>
+          <p>Seleccionar desde las Colecciones guardadas  <Switch checked={leftInternalOrigin} onChange={setLeftInternalOrigin}/> </p>
+          {!leftInternalOrigin ? <Input name="url" placeholder="Ingrese URL de la imagen" onChange={e=> setLeft(e.target.value)}/>
+          :<CollectionSelector variable={left} setVariable={setLeft} type="image"/>}
+        </div>
+        <div className='border border-zinc-200 p-2 rounded-lg'>
+          <Label>Imagen de la Derecha</Label>
+          <p>Seleccionar desde las Colecciones guardadas  <Switch checked={rightInternalOrigin} onChange={setRightInternalOrigin}/> </p>
+          {!rightInternalOrigin ? <Input name="url" placeholder="Ingrese URL de la imagen" onChange={e=> setRight(e.target.value)}/>
+          :<CollectionSelector variable={right} setVariable={setRight} type="image"/>}
+        </div>
         <Button type="submit" className="mx-1 my-2" onClick={save}>Guardar</Button>
         <Button className="mx-1 my-2" onClick={()=> setEditor(false)}>Cancelar</Button>
       </Field>

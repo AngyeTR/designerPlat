@@ -1,15 +1,16 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { CollectionsList } from "../components/CollectionsList";
 import { ResourcesView } from "../components/ResourcesView";
 import { HiOutlineHome } from "react-icons/hi";
 import { Button } from "../components/uikit/button";
 import { useNavigate } from "react-router-dom";
+import { getByCompanyId } from "../API/api";
 
 export const ResourcesPage=()=>{
     const [collection, setCollection] = useState(null)
     const nav = useNavigate()
     const cols = [ 
-        {name: "Collection 1", 
+        {name: "Collection 1", id:1,
         data:[
             {name:"file", type:"image", url:"https://contents.mediadecathlon.com/p2671912/1cr1/k$09097b15becc8c1847d604fcbcfbb926/guayos-futbol-viralto-iii-3d-air-mesh-fg.jpg?format=auto&f=768x0"},
             {name:"file", type:"image", url:"https://contents.mediadecathlon.com/p2671912/1cr1/k$09097b15becc8c1847d604fcbcfbb926/guayos-futbol-viralto-iii-3d-air-mesh-fg.jpg?format=auto&f=768x0"},
@@ -17,14 +18,18 @@ export const ResourcesPage=()=>{
             {name:"file", type:"video", url:"https://contents.mediadecathlon.com/p2671912/1cr1/k$09097b15becc8c1847d604fcbcfbb926/guayos-futbol-viralto-iii-3d-air-mesh-fg.jpg?format=auto&f=768x0"},
             {name:"file", type:"video", url:"https://www.youtube.com/embed/-VGQxQHLXEI?si=trey54RoReblOwn4"}
         ]}, 
-        {name: "Collection 2", 
+        {name: "Collection 2", id:2,
             data:[   ]}, 
-            {name: "Collection 3", 
+            {name: "Collection 3", id:3,
                 data:[
                      {name:"file", type:"image", url:"https://contents.mediadecathlon.com/p2671912/1cr1/k$09097b15becc8c1847d604fcbcfbb926/guayos-futbol-viralto-iii-3d-air-mesh-fg.jpg?format=auto&f=768x0"}
                 ]}, 
     ]
     const [collections, setCollections] = useState(cols)
+
+    useEffect(() => {
+        getByCompanyId(1).then((res) => {res?.isValid ? setCollections(res) : setCollections(cols)});
+      }, []);
 
     return ( 
         <div >
