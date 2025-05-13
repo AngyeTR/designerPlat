@@ -8,6 +8,7 @@ import { getByCompanyId } from "../API/api";
 
 export const ResourcesPage=()=>{
     const [collection, setCollection] = useState(null)
+    console.log(collection)
     const nav = useNavigate()
     const cols = [ 
         {name: "Collection 1", id:1,
@@ -25,10 +26,11 @@ export const ResourcesPage=()=>{
                      {name:"file", type:"image", url:"https://contents.mediadecathlon.com/p2671912/1cr1/k$09097b15becc8c1847d604fcbcfbb926/guayos-futbol-viralto-iii-3d-air-mesh-fg.jpg?format=auto&f=768x0"}
                 ]}, 
     ]
-    const [collections, setCollections] = useState(cols)
+    const [collections, setCollections] = useState(null)
 
     useEffect(() => {
-        getByCompanyId(1).then((res) => {res?.isValid ? setCollections(res) : setCollections(cols)});
+        getByCompanyId(1).then((res) => console.log(res));
+        getByCompanyId(1).then((res) => {setCollections(res)});
       }, []);
 
     return ( 

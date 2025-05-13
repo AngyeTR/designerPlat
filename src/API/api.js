@@ -31,7 +31,7 @@ export const postFolder = async (data)=>{
 
 export const postFile = async (data)=>{
   const res = await api.post(`/Libraries/AddFile`, data).then(response =>  response).catch(error => {return error.response}); 
-  return res.data.data
+  return res.data
 }
 
 export const postImage = async (data)=>{

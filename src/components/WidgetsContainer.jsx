@@ -9,7 +9,7 @@ export const WidgetsContainer =({setItems, items, count, setCount, layoutColor})
     const getMap = ()=>{return itemsRef.current}
 
     const addWidget = async (type)=>{
-        setItems([...items,{id: `${type}-${count}`, h:"1" , w:"1", content:type == "container" ? [] : null, style:null}]);
+        setItems([...items,{id: `${type}-${count}`, h:"3" , w:"1", content:type == "container" ? [] : null, style:null}]);
         // setTimeout(()=>{grid.makeWidget(getMap().get(count))}, 5)
     await new Promise(resolve => setTimeout(resolve, 500));
 

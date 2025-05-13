@@ -20,7 +20,7 @@ export const ImageWidget = ({content, id, edit, editable})=>{
         <>
         <div className={` w-[100%] h-[98%] bg-[url(${url})] z-0 rounded-lg bg-center bg-no-repeat bg-cover`}
         style={{ backgroundImage: `url('${url}')` }}>
-        {(!editor && editable )&& <button onClick={()=>setEditor(true)} className="absolute top-1 right-10 bg-blue-500 text-white px-2 py-1  h-6 text-[6px] rounded z-30 hover:border hover:border-zinc-500 cursor-pointer"><HiOutlinePencil className="size-4"/></button>}
+        {(!editor && editable )&& <button onClick={()=>setEditor(true)} className="absolute top-1 right-10 bg-blue-500 text-white px-2 py-1  h-6 text-[6px] rounded z-50 hover:border hover:border-zinc-500 cursor-pointer"><HiOutlinePencil className="size-4"/></button>}
         </div>    
         {editor  && (
        <Modal> 
