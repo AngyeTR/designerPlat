@@ -46,7 +46,7 @@ export const NewResourceForm = ({setEditor, data})=>{
             <option value={1} key="image">Imagen</option>
             <option value={2} key="video">Video</option>
         </Select>
-        <input className="rounded-lg border border-zinc-300 my-1 h-[50px] p-1 w-full" type="file" accept="image/*" onChange={(e)=>saveFile(e.target.files[0])}/>
+        {dataSet.fileType && <input className="rounded-lg border border-zinc-300 my-1 h-[50px] p-1 w-full" type="file" accept={dataSet.fileType == 1 ? "image/*" : "video/*" } onChange={(e)=>saveFile(e.target.files[0])}/>}
         {error  && <p className="text-red-600 pt-5 ">Ups! Algo salió mal: {error}</p> }
         { file && <Input placeholder={file.name}  className="my-1" onChange={e=>SetDataSet(prev => ({...prev, ["name"] : e.target.value}))}/>}
         <Button type="submit" className="mx-1 my-2" onClick={save} >Guardar</Button>

@@ -10,11 +10,13 @@ export const CollectionSelector = ({variable, setVariable, type})=> {
     console.log(collection)
     useEffect(() => {getByCompanyId(1).then((res) => setData(res));}, []);
 
-    const renderList =()=>{
+    const renderList =()=>{ 
         const items = data.filter(item=> item?.name == collection)
+        const newItems = (type == "video") ? items[0].files.filter(item=> item.fileType == 2 ) : items[0].files.filter(item=> item.fileType != 2 )
+            console.log(newItems)
         return (<div className="my-2">
         {
-        items[0] && items[0].files.map(item => 
+        newItems.map(item => 
            <div className={`flex justify-center items-center ${variable == item.url && "border border-zinc-400 rounded-lg p-0"} hover:underline`} onClick={()=>setVariable(item.url)}>
             <p>{item.name}</p> 
            {type == "image" ? <img className="w-[40px] h-[40px] mx-2" src={item.url}/> : <HiOutlineFilm className="justify-self-center size-16"/>}</div>)}
