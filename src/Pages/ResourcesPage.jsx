@@ -35,7 +35,7 @@ export const ResourcesPage=()=>{
 
     return ( 
         <div >
-            <Button onClick={()=>nav("/editor")} className="mt-5" color="light"><HiOutlineHome className="size-6 justify-self-start" />
+            <Button onClick={()=>nav("/")} className="mt-5" color="light"><HiOutlineHome className="size-6 justify-self-start" />
             </Button>
         <div className=" h-[90vh] w-[90vw] sm:grid sm:grid-cols-6 gap-1 justify-items-center m-0 p-0 mt-1 justify-self-center">
            <CollectionsList collection={collection} setCollection={setCollection} data={collections} setData={setCollections} />

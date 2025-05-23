@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Button } from "./uikit/button"
+import { Input } from "./uikit/input";
 import { useNavigate } from "react-router-dom";
 import { Controller } from "./Controller";
 
@@ -17,7 +18,6 @@ export const WidgetsContainer =({setItems, items, count, setCount, layoutColor})
 
     const saveLayout = () => {
         const layout = grid.save(false)
-        console.log(layout, items)
         layout.forEach((item) => {item.content = items.filter(it => it.id == item.id)[0].content})
         layout.forEach((item) => {item.style = items.filter(it => it.id == item.id)[0].style})
         localStorage.setItem("grid-layout", JSON.stringify(layout))
@@ -29,9 +29,10 @@ export const WidgetsContainer =({setItems, items, count, setCount, layoutColor})
     
     return (
         <div className="border border-zinc-400 w-full m-1 rounded-lg p-1 pt-2">
-            <div className="grid grid-cols-2">
-            <Button onClick={()=>saveLayout()}  className="justify-self-center w-[90% ">Guardar</Button>
-            <Button onClick={()=>nav("/resources")}  className="justify-self-center w-[90% ">Ver galería</Button>
+            <div className="grid grid-cols-2 auto-rows-auto gap-1">
+            <Input placeholder="nombre" className="col-span-2 w-[90%]"/>
+            <Button onClick={()=>saveLayout()}  className="justify-self-center w-[90%] "><p className="text-[80%] self-center">Guardar</p></Button>
+            {/* <Button onClick={()=>nav("/resources")}  className="justify-self-center w-[90%]  text-[70%]"><p className="text-[80%] self-center">Ver Galería</p></Button> */}
             </div>
             <div className="flex justify-center sm:flex-col mt-2 justify-self-center">
                 <Controller type="text" handleClick={addWidget}/>
